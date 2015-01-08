@@ -5,7 +5,10 @@ open FsCheck
 open FsCheck.Xunit
 open Ploeh.Samples
 
-[<Property(QuietOnSuccess = true)>]
+type DiamondPropertyAttribute() =
+    inherit PropertyAttribute(QuietOnSuccess = true)
+
+[<DiamondProperty>]
 let ``Diamond is non-empty`` (letter : char) =
     let actual = Diamond.make letter
     not (String.IsNullOrWhiteSpace actual)
