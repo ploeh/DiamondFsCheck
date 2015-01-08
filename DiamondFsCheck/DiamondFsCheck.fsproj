@@ -8,7 +8,7 @@
     <ProjectGuid>33083c6c-d930-4793-b8f4-5a2f6338b7fe</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>DiamondFsCheck</RootNamespace>
-    <AssemblyName>DiamondFsCheck</AssemblyName>
+    <AssemblyName>Ploeh.Samples.DiamondFsCheck</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>DiamondFsCheck</Name>
@@ -32,19 +32,6 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\DiamondFsCheck.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Library1.fs" />
-    <None Include="Script.fsx" />
-  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -61,6 +48,32 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Compile Include="Diamond.fs" />
+    <Compile Include="DiamonProperties.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FsCheck">
+      <HintPath>..\packages\FsCheck.1.0.4\lib\net45\FsCheck.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FsCheck.Xunit">
+      <HintPath>..\packages\FsCheck.Xunit.1.0.4\lib\net45\FsCheck.Xunit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
