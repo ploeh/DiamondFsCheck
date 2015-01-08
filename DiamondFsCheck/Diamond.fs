@@ -1,3 +1,3 @@
 ﻿module Ploeh.Samples.Diamond
 
-let make letter = "Devil's Advocate."
+let make letter = "        A       "

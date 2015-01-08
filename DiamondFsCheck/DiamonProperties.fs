@@ -23,16 +23,18 @@ let ``Diamond is non-empty`` (letter : char) =
 let split (x : string) =
     x.Split([| Environment.NewLine |], StringSplitOptions.None)
 
+let trim (x : string) = x.Trim()
+
 [<DiamondProperty>]
 let ``First row contains A`` (letter : char) =
     let actual = Diamond.make letter
 
     let rows = split actual
-    rows |> Seq.head |> Seq.exists ((=) 'A')
+    rows |> Seq.head |> trim = "A"
 
 [<DiamondProperty>]
 let ``Last row contains A`` (letter : char) =
     let actual = Diamond.make letter
 
     let rows = split actual
-    rows |> Seq.last |> Seq.exists ((=) 'A')
+    rows |> Seq.last |> trim = "A"
