@@ -19,3 +19,20 @@ type DiamondPropertyAttribute() =
 let ``Diamond is non-empty`` (letter : char) =
     let actual = Diamond.make letter
     not (String.IsNullOrWhiteSpace actual)
+
+let split (x : string) =
+    x.Split([| Environment.NewLine |], StringSplitOptions.None)
+
+[<DiamondProperty>]
+let ``First row contains A`` (letter : char) =
+    let actual = Diamond.make letter
+
+    let rows = split actual
+    rows |> Seq.head |> Seq.exists ((=) 'A')
+
+[<DiamondProperty>]
+let ``Last row contains A`` (letter : char) =
+    let actual = Diamond.make letter
+
+    let rows = split actual
+    rows |> Seq.last |> Seq.exists ((=) 'A')
