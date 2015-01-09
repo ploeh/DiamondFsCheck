@@ -89,3 +89,18 @@ let ``All rows except top and bottom have two identical letters``
     |> Array.filter (fun x -> not (x.Contains("A")))
     |> Array.map (fun x -> x.Replace(" ", ""))
     |> Array.forall isTwoIdenticalLetters
+
+[<DiamondProperty>]
+let ``Lower left space is a triangle`` (letter : char) =
+    let actual = Diamond.make letter
+
+    let rows = split actual
+    let lowerLeftSpace =
+        rows
+        |> Seq.skipWhile (fun x -> not (x.Contains(string letter)))
+        |> Seq.map leadingSpaces
+    let spaceCounts = lowerLeftSpace |> Seq.map (fun x -> x.Length)
+    let expected = Seq.initInfinite id
+    spaceCounts
+    |> Seq.zip expected
+    |> Seq.forall (fun (x, y) -> x = y)
