@@ -53,3 +53,15 @@ let ``All rows must have a symmetric contour`` (letter : char) =
     
     let rows = split actual
     rows |> Array.forall (fun r -> (leadingSpaces r) = (trailingSpaces r))
+
+[<DiamondProperty>]
+let ``Rows must contain the correct letters, in the correct order``
+    (letter : char) =
+    
+    let actual = Diamond.make letter
+
+    let letters = ['A' .. letter]
+    let expectedLetters =
+        letters @ (letters |> List.rev |> List.tail) |> List.toArray
+    let rows = split actual
+    expectedLetters = (rows |> Array.map trim |> Array.map Seq.head)
