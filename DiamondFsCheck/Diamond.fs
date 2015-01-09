@@ -17,15 +17,10 @@ let make letter =
     let indexedLetters =
         ['A' .. letter] |> Seq.mapi (fun i l -> l, i) |> Seq.toList
     let indexedLetters = 
-        (   indexedLetters
-            |> List.map (fun (l, _) -> l, 1)
-            |> List.rev
-            |> List.tail
-            |> List.rev)
-        @ (indexedLetters |> List.rev)
+        indexedLetters @ (indexedLetters |> List.rev |> List.tail)
 
     let width = indexedLetters.Length
-
+    
     indexedLetters
     |> List.map (makeLine width)
     |> List.reduce (fun x y -> sprintf "%s%s%s" x Environment.NewLine y)

@@ -104,3 +104,20 @@ let ``Lower left space is a triangle`` (letter : char) =
     spaceCounts
     |> Seq.zip expected
     |> Seq.forall (fun (x, y) -> x = y)
+
+[<DiamondProperty>]
+let ``Figure is symmetric around the horizontal axis`` (letter : char) =
+    let actual = Diamond.make letter
+
+    let rows = split actual
+    let topRows =
+        rows
+        |> Seq.takeWhile (fun x -> not (x.Contains(string letter))) 
+        |> Seq.toList
+    let bottomRows =
+        rows
+        |> Seq.skipWhile (fun x -> not (x.Contains(string letter)))
+        |> Seq.skip 1
+        |> Seq.toList
+        |> List.rev
+    topRows = bottomRows
