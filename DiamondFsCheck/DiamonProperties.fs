@@ -65,3 +65,11 @@ let ``Rows must contain the correct letters, in the correct order``
         letters @ (letters |> List.rev |> List.tail) |> List.toArray
     let rows = split actual
     expectedLetters = (rows |> Array.map trim |> Array.map Seq.head)
+
+[<DiamondProperty>]
+let ``Diamond is as wide as it's high`` (letter : char) =
+    let actual = Diamond.make letter
+
+    let rows = split actual
+    let expected = rows.Length
+    rows |> Array.forall (fun x -> x.Length = expected)
