@@ -8,7 +8,9 @@ let make letter =
         | 'A' ->
             let padding = String(' ', (width - 1) / 2)
             sprintf "%s%c%s" padding letter padding
-        | _ -> String(letter, width)
+        | _ -> 
+            let innerSpace = String(' ', width - 2)
+            sprintf "%c%s%c" letter innerSpace letter
 
     let letters = ['A' .. letter]
     let letters = letters @ (letters |> List.rev |> List.tail)
