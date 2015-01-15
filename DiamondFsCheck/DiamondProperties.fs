@@ -1,4 +1,4 @@
-﻿module Ploeh.Samples.DiamonProperties
+﻿module Ploeh.Samples.DiamondProperties
 
 open System
 open FsCheck

@@ -51,7 +51,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Compile Include="Diamond.fs" />
-    <Compile Include="DiamonProperties.fs" />
+    <Compile Include="DiamondProperties.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsCheck">
