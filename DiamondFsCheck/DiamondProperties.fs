@@ -1,19 +1,17 @@
 ﻿module Ploeh.Samples.DiamondProperties
 
 open System
-open FsCheck
-open FsCheck.Xunit
 open Ploeh.Samples
+open Xunit.Extensions
 
-type Letters =
-    static member Char() = Gen.elements ['A' .. 'Z'] |> Arb.fromGen
+type Letters () =    
+    let letters = seq {'A' .. 'Z'} |> Seq.cast<obj> |> Seq.map (fun x -> [|x|])
+    interface seq<obj[]> with
+        member this.GetEnumerator () = letters.GetEnumerator()
+        member this.GetEnumerator () =
+            letters.GetEnumerator() :> Collections.IEnumerator
 
-type DiamondPropertyAttribute() =
-    inherit PropertyAttribute(
-        Arbitrary = [| typeof<Letters> |],
-        QuietOnSuccess = true)
-
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``Diamond is non-empty`` (letter : char) =
     let actual = Diamond.make letter
     not (String.IsNullOrWhiteSpace actual)
@@ -23,14 +21,14 @@ let split (x : string) =
 
 let trim (x : string) = x.Trim()
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``First row contains A`` (letter : char) =
     let actual = Diamond.make letter
 
     let rows = split actual
     rows |> Seq.head |> trim = "A"
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``Last row contains A`` (letter : char) =
     let actual = Diamond.make letter
 
@@ -45,14 +43,14 @@ let trailingSpaces (x : string) =
     let lastIndexOfNonSpace = x.LastIndexOfAny [| 'A' .. 'Z' |]
     x.Substring(lastIndexOfNonSpace + 1)
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``All rows must have a symmetric contour`` (letter : char) =
     let actual = Diamond.make letter
     
     let rows = split actual
     rows |> Array.forall (fun r -> (leadingSpaces r) = (trailingSpaces r))
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``Rows must contain the correct letters, in the correct order``
     (letter : char) =
     
@@ -64,7 +62,7 @@ let ``Rows must contain the correct letters, in the correct order``
     let rows = split actual
     expectedLetters = (rows |> Array.map trim |> Array.map Seq.head)
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``Diamond is as wide as it's high`` (letter : char) =
     let actual = Diamond.make letter
 
@@ -72,7 +70,7 @@ let ``Diamond is as wide as it's high`` (letter : char) =
     let expected = rows.Length
     rows |> Array.forall (fun x -> x.Length = expected)
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``All rows except top and bottom have two identical letters``
     (letter : char) =
 
@@ -88,7 +86,7 @@ let ``All rows except top and bottom have two identical letters``
     |> Array.map (fun x -> x.Replace(" ", ""))
     |> Array.forall isTwoIdenticalLetters
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``Lower left space is a triangle`` (letter : char) =
     let actual = Diamond.make letter
 
@@ -103,7 +101,7 @@ let ``Lower left space is a triangle`` (letter : char) =
     |> Seq.zip expected
     |> Seq.forall (fun (x, y) -> x = y)
 
-[<DiamondProperty>]
+[<Theory; ClassData(typeof<Letters>)>]
 let ``Figure is symmetric around the horizontal axis`` (letter : char) =
     let actual = Diamond.make letter
 
