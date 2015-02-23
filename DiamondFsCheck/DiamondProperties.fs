@@ -6,9 +6,7 @@ open FsCheck.Xunit
 open Ploeh.Samples
 
 type Letters =
-    static member Char() =
-        Arb.Default.Char()
-        |> Arb.filter (fun c -> 'A' <= c && c <= 'Z')
+    static member Char() = Gen.elements ['A' .. 'Z'] |> Arb.fromGen
 
 type DiamondPropertyAttribute() =
     inherit PropertyAttribute(
