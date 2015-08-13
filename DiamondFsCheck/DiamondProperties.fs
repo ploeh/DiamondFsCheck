@@ -74,9 +74,9 @@ let ``Diamond is as wide as it's high`` (letter : char) =
     test <@ rows |> Array.forall (fun x -> x.Length = expected) @>
 
 let isTwoIdenticalElements x =
-    let hasIdenticalElements = x |> Seq.distinct |> Seq.length = 1
-    let hasTwoElements = x |> Seq.length = 2
-    hasIdenticalElements && hasTwoElements
+    match x |> Seq.truncate 3 |> Seq.toList with
+    | [y; z] -> y = z
+    | _ -> false
 
 [<Theory; ClassData(typeof<Letters>)>]
 let ``All rows except top and bottom have two identical letters``
