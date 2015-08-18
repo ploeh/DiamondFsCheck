@@ -73,8 +73,8 @@ let ``Diamond is as wide as it's high`` (letter : char) =
     let expected = rows.Length
     test <@ rows |> Array.forall (fun x -> x.Length = expected) @>
 
-let isTwoIdenticalElements x =
-    match x |> Seq.truncate 3 |> Seq.toList with
+let isTwoIdenticalElements xs =
+    match xs |> Seq.truncate 3 |> Seq.toList with
     | [y; z] -> y = z
     | _ -> false
 
